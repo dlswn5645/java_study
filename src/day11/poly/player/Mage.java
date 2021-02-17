@@ -10,22 +10,27 @@ public class Mage extends Player {
 
     public Mage(String name) {
         this.name = name;
-        this.hp = 50;
+        this.hp = 40;
     }
 
     public void meteo(Player... players) {
-        if (players.length > 0 ) {
-            System.out.printf("# %s님이 메테오 시전!!!\n",this.name);
-            System.out.println("--------------------------------------------");
-            for(Player p : players){
-                //타겟팅된 객테가 자기 자신일 경우 스킵
-                if(p == this) continue;
+
+        if (players.length > 0) {
+
+            System.out.printf("# %s님이 메테오 시전!!!\n", this.name);
+            System.out.println("------------------------------------");
+
+            for (Player p : players) {
+                // 타겟팅된 객체가 자기 자신일 경우 스킵
+                if (p == this) continue;
+
                 //10 ~ 15 무작위 피해를 주어야 함
                 int damage = (int) (Math.random() * 6) + 10;
                 p.hp -= damage;
-                System.out.printf("%s님이 %d의 피해를 입었습니다.(남은 체력: %d)\n", p.name,damage,p.hp);
+                System.out.printf("%s님이 %d의 피해를 입었습니다. (남은 체력: %d)\n",
+                                    p.name, damage, p.hp);
             }
-        }else {
+        } else {
             System.out.println("타겟된 플레이어가 없습니다.");
         }
     }
