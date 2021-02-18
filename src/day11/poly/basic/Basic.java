@@ -28,9 +28,10 @@ public class Basic {
 
     public static void main(String[] args) {
 
-        A a = new B();
+        A a = new B();//타입만 A로 바뀌었고 객체는 B이다.
         System.out.println(a);
 
+        //모든 자바의 객체는 오브젝트를 사용할 수 있다.
         Object o1 = new A();
         Object o2 = new E();
 

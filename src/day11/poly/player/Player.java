@@ -1,7 +1,7 @@
 package day11.poly.player;
 
 //부모 클래스(super class)
-//상속을 사용하지 않으면 자동으로 Object를 상속함
+//상속을 사용하지 않으면 자동으로 Object를 상속함(결국,지바의 모든 클래스는 Object를 상속하게 됨)
 public class Player extends Object {
 
     String name;
