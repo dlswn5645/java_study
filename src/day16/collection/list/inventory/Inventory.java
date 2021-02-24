@@ -47,6 +47,11 @@ public class Inventory {
         return null; //탐색 실패 - 즉, 바코드번호가 없거나 잘못된 경우
     }
 
+    //제품 삭제 기능
+    public void removeProduct(Product delProduct) {
+        products.remove(delProduct);
+    }
+
     @Override
     public String toString() {
         return products.toString();
