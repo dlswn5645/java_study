@@ -1,5 +1,6 @@
 package day16.collection.list.inventory;
 
+import java.io.*;
 import java.util.Scanner;
 
 public class Main {
@@ -25,7 +26,9 @@ public class Main {
         System.out.printf("제품(%s) 등록이 완료되었습니다.\n"
                             , newProduct.getProductName());
 //        System.out.println(inventory);
+        saveData();
     }
+
 
     //제품 정보 전체 조회 기능
     private static void showAllProducts() {
@@ -97,9 +100,40 @@ public class Main {
 
     }
 
+    //입력된 제품데이터를 저장하는 메서드
+    private static void saveData() {
+
+        String fileName = "D:\\product\\product.sav";
+        FileOutputStream fos = null;
+        ObjectOutputStream oos = null;
+
+        try {
+            fos = new FileOutputStream(fileName);
+            oos = new ObjectOutputStream(fos);
+
+            oos.writeObject(inventory);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            if(oos != null)
+            try {
+                oos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static void main(String[] args) {
 
-        testInsert();
+//        testInsert();
+        File f = new File("D:\\product");
+        if(!f.exists()){
+            f.mkdirs();
+        }
 
         while (true) {
             System.out.println("\n*** 재고 관리 프로그램 ***");

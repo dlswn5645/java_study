@@ -3,6 +3,8 @@ package day17.collection.map.song;
 import java.util.*;
 import java.io.*;
 
+//직렬화를 하지 않은 이유: 이미 직렬화가 되어 있기 때문에
+//내가 만든 객체는 직렬화를 해야함
 public class MainClass {
 
 
@@ -87,22 +89,25 @@ public class MainClass {
 		 3. 가수명과 곡명이 모두 사전에 등록된 정보라면
 		 "# 이미 등록된 노래입니다."를 출력하세요.
 		 */
-    /*
-        if (artists.containsKey(artist)) {
-            for( String song : artists.keySet()){
-                Set<String> songs = new HashSet<>();
-                songs = artist.get(song);
-                if(songs.equals(songs)){
-                    System.out.printf("아티스트 %s님의 노래목록에 %s이(가) 추가되었습니다.",artist,song);
-                }else{
-                    System.out.printf("아티스트 %s님이 신규등록되었습니다.",artist);
-                }
+
+        //신규 아티스트의 노래set 생성
+
+        //신규 아티스트 판단 조건
+        if(!artists.containsKey(artist)) {
+            songs = new HashSet<>();
+            songs.add(song);
+            artists.put(artist, songs);
+            System.out.printf("#아티스트 %s님이 신규 등록되었습니다.\n",artist);
+        } else { //기존 등록
+            Set<String> songList = artists.get(artist);
+            songList.add(song);
+            if(songList.add(song)){
+                System.out.printf("#아티스트 %s님의 노래 목록에 '%s'이(가) 추가 되었습니다.\n",artist,song);
+            }else {
+                System.out.println("#이미 등록된 노래입니다.");
             }
-        }else {
-            System.out.println("# 이미 등록된 노래입니다.");
         }
-     */
-        saveData();
+        saveData();//노래를 등록하면 자동 세이브
     }
 
     public static void searchMusic() {
@@ -118,13 +123,18 @@ public class MainClass {
 		      [abc, def, ghi, jkl ...]
 		 2. 등록된 가수가 아니라면 "해당 아티스트는 등록되지 않았습니다."를 출력.
 		 */
-        Set<String> realArtist = artists.get(artist);
-        if (artist.equals(realArtist)) {
 
-        }else {
-            System.out.println("해당 아티스트는 등록되지 않았습니다.\n");
-        }
-
+         if(artists.containsKey(artist)){
+             System.out.printf("* %s님의 노래 목록 *\n",artist);
+             System.out.println("---------------------------------------");
+             int number = 1;
+             for(String song : artists.get(artist)){
+                 System.out.printf("* %d. %s\n",number,song);
+                 number++;
+             }
+         }else {
+             System.out.println("해당 아티스트는 등록되지 않았습니다.");
+         }
     }
 
     //입력된 노래데이터를 저장하는 메서드.
@@ -144,7 +154,7 @@ public class MainClass {
             oos = new ObjectOutputStream(fos);
 
             //성적정보가 저장된 리스트를 파일에 저장.
-            oos.writeObject(artists);
+            oos.writeObject(artists);//map을 하나 던진다(일일히 할 필요 없이)
 
         } catch (FileNotFoundException e) {
             System.out.println("해당 경로가 존재하지 않습니다.");
@@ -169,7 +179,7 @@ public class MainClass {
             fis = new FileInputStream(fileName);
             ois = new ObjectInputStream(fis);
 
-            //readObject는 파일에저장된 객체를 Object타입으로 리턴한다.
+            //readObject는 파일에 저장된 객체를 Object타입으로 리턴한다.
             artists = (Map<String, Set<String>>) ois.readObject();
 
         } catch (Exception e) {
@@ -179,8 +189,8 @@ public class MainClass {
 
     }
 
-
 }
+
 
 
 
