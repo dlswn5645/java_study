@@ -82,6 +82,7 @@ public class Main {
         }else{
             System.out.println("\n# 해당 제품은 존재하지 않습니다.");
         }
+        saveData();
     }
 
     private static void deleteProduct(){
@@ -97,7 +98,7 @@ public class Main {
         }else {
             System.out.println("\n# 해당 제품은 존재하지 않습니다.");
         }
-
+        saveData();
     }
 
     //입력된 제품데이터를 저장하는 메서드
@@ -114,15 +115,39 @@ public class Main {
             oos.writeObject(inventory);
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("해당 경로가 존재하지 않습니다.");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }finally {
             if(oos != null)
             try {
                 oos.close();
             } catch (IOException e) {
-                e.printStackTrace();
+            }
+        }
+    }
+
+    //파일의 저장된 정보를 불러오는 메서드
+    private static void loadData() {
+        String fileName = "D:\\product\\product.sav";
+
+        FileInputStream fis = null;
+        ObjectInputStream ois = null;
+
+        try {
+            fis = new FileInputStream(fileName);
+            ois = new ObjectInputStream(fis);
+
+            inventory = (Inventory) ois.readObject();
+
+        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
+        } catch (ClassNotFoundException e) {
+        } finally {
+            if(ois != null)
+            try {
+                ois.close();
+            } catch (IOException e) {
             }
         }
     }
@@ -135,6 +160,7 @@ public class Main {
             f.mkdirs();
         }
 
+        loadData();
         while (true) {
             System.out.println("\n*** 재고 관리 프로그램 ***");
             System.out.println("# 1. 제품 정보 등록");
