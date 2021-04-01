@@ -12,10 +12,11 @@ public class ArrayDelete {
         }
 
         int[] temp = new int[arr.length - 1];
-        for (int i = 0; i < arr.length; i++) {
+        for (int i = 0; i < temp.length; i++) {
             temp[i] = arr[i];
         }
-        arr = temp; temp = null;
+        arr = temp;
+        temp = null;
 
 
         /*
